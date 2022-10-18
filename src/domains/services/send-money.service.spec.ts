@@ -7,7 +7,7 @@ import { mock, when, anything, anyString, instance } from 'ts-mockito';
 import { SendMoneyService } from './send-money.service';
 
 describe('SendMoneyService', () => {
-  it('should transaction success', () => {
+  it('should transaction success', async () => {
     const loadAccountPort = mock<LoadAccountPort>();
     const updateAccountStatePort = mock<UpdateAccountStatePort>();
 
@@ -39,7 +39,7 @@ describe('SendMoneyService', () => {
       instance(loadAccountPort),
       instance(updateAccountStatePort),
     );
-    const result = sendMoneyService.sendMoney(command);
+    const result = await sendMoneyService.sendMoney(command);
 
     expect(result).toBeTruthy();
   });
