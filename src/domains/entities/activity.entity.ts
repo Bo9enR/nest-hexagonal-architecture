@@ -1,7 +1,7 @@
 import { AccountId } from './account.entity';
 import { MoneyEntity } from './money.entity';
 
-export type ActivityId = number | null;
+export type ActivityId = string | null;
 
 export class ActivityEntity {
   constructor(
