@@ -12,6 +12,8 @@ import {
 } from './entities/activity.orm-entity';
 import { LoadAccountAdapter } from './adapters/load-account.adapter';
 import { UpdateAccountActivitiesAdapter } from './adapters/update-account-activities.adapter';
+import { GetAccountBalanceQuerySymbol } from 'src/domains/ports/in/get-account-balance.query';
+import { GetAccountBalanceService } from 'src/domains/services/get-account-balance.service';
 
 @Global()
 @Module({
@@ -34,7 +36,14 @@ import { UpdateAccountActivitiesAdapter } from './adapters/update-account-activi
       },
       inject: [LoadAccountAdapter, UpdateAccountActivitiesAdapter],
     },
+    {
+      provide: GetAccountBalanceQuerySymbol,
+      useFactory: (loadAccountAdapter) => {
+        return new GetAccountBalanceService(loadAccountAdapter);
+      },
+      inject: [LoadAccountAdapter],
+    },
   ],
-  exports: [SendMoneyUseCaseSymbol],
+  exports: [SendMoneyUseCaseSymbol, GetAccountBalanceQuerySymbol],
 })
 export class AccountPersistenceModule {}
