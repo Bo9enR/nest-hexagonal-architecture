@@ -3,15 +3,12 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AccountEntity, AccountId } from 'src/domains/entities/account.entity';
 import { LoadAccountPort } from 'src/domains/ports/out/load-account.port';
-import { UpdateAccountStatePort } from 'src/domains/ports/out/update-account-state.port';
-import { AccountMapper } from './account.mapper';
-import { AccountOrmEntity } from './account.orm-entity';
-import { ActivityOrmEntity } from './activity.orm-entity';
+import { ActivityOrmEntity } from './../entities/activity.orm-entity';
+import { AccountMapper } from './../account.mapper';
+import { AccountOrmEntity } from './../entities/account.orm-entity';
 
 @Injectable()
-export class AccountPersistenceAdapter
-  implements LoadAccountPort, UpdateAccountStatePort
-{
+export class LoadAccountAdapter implements LoadAccountPort {
   constructor(
     @InjectModel(AccountOrmEntity.name)
     private readonly _accountModel: Model<AccountOrmEntity>,
@@ -30,20 +27,5 @@ export class AccountPersistenceAdapter
     });
 
     return AccountMapper.mapToDomain(account, activities);
-  }
-
-  async updateActivities(account: AccountEntity): Promise<void> {
-    account.activityWindow.activities.forEach((activity) => {
-      if (!activity.id) {
-        this._activityModel.create(
-          AccountMapper.mapToActivityOrmEntity(activity),
-        );
-      } else {
-        this._activityModel.findOneAndUpdate(
-          { _id: activity.id },
-          AccountMapper.mapToActivityOrmEntity(activity),
-        );
-      }
-    });
   }
 }

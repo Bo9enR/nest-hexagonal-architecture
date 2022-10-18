@@ -2,8 +2,8 @@ import { AccountEntity } from 'src/domains/entities/account.entity';
 import { ActivityWindowEntity } from 'src/domains/entities/activity-window.entity';
 import { ActivityEntity } from 'src/domains/entities/activity.entity';
 import { MoneyEntity } from 'src/domains/entities/money.entity';
-import { AccountOrmEntity } from './account.orm-entity';
-import { ActivityOrmEntity } from './activity.orm-entity';
+import { AccountOrmEntity } from './entities/account.orm-entity';
+import { ActivityOrmEntity } from './entities/activity.orm-entity';
 
 export class AccountMapper {
   static mapToDomain(
